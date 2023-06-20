@@ -1,7 +1,13 @@
 #include "lexer.h"
 
 int main(void) {
-    char* input = "+=(){},;\0";
+    char* input = "let five = 5;"
+                  "let ten = 10;"
+                  "let add = fn(x, y) {"
+                  "    x + y;"
+                  "};"
+                  "let result = add(five, ten);";
+    // char* input = "+=(){},;\0";
     lexer l = create_lexer(input);
     token tok;
     do {

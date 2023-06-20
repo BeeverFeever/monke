@@ -66,7 +66,9 @@ static const char* const str_token_type[len_token_type] = {
 };
 
 typedef struct {
-    char* literal;
+    // 512 is even being generous, if a literal is more than that, there is a
+    // serious problem.
+    char literal[512];
     token_type type;
 } token;
 
@@ -83,4 +85,13 @@ void debug_token(token t);
 lexer create_lexer(char* source);
 token next_token(lexer* l);
 void read_char(lexer* l);
-char* read_identifier(lexer* l);
+
+// I couldn't figure out how to make these functions without dynamic memory so I had to
+// 'take inspiration' from @zivlakmilos implementation. Thankyou.
+const char* read_identifier(lexer* l, size_t* len);
+const char* read_number(lexer* l, size_t* len);
+
+int is_letter(const char c);
+int is_number(const char c);
+token_type identifier_from_literal(const char* literal, size_t len);
+void skip_whitespace(lexer* l);
